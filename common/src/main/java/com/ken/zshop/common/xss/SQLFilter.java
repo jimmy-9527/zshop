@@ -9,7 +9,7 @@
 package com.ken.zshop.common.xss;
 
 import com.ken.zshop.common.exception.RRException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * SQL过滤
