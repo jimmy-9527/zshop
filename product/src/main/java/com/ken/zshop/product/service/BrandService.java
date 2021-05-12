@@ -1,7 +1,7 @@
 package com.ken.zshop.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ken.common.utils.PageUtils;
+import com.ken.zshop.common.utils.PageUtils;
 import com.ken.zshop.product.entity.BrandEntity;
 
 import java.util.Map;
