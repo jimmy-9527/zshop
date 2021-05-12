@@ -8,5 +8,10 @@
     <artifactId>zshop</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <modules>
+        <module>product</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+    </modules>
 
 </project>
