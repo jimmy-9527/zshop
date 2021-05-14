@@ -35,7 +35,7 @@ public class ${className}Controller {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("${moduleName}:${pathName}:list")
+    // @RequiresPermissions("${moduleName}:${pathName}:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = ${classname}Service.queryPage(params);
 
