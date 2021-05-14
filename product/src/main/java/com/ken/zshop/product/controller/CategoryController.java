@@ -1,6 +1,7 @@
 package com.ken.zshop.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -30,6 +31,17 @@ import com.ken.zshop.common.utils.R;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+
+
+    /**
+     * 树状展示
+     */
+    @RequestMapping("/tree")
+    public R tree(){
+        List<CategoryEntity> tree = categoryService.listTree();
+
+        return R.ok().put("data", tree);
+    }
 
     /**
      * 列表

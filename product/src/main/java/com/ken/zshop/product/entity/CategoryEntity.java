@@ -1,10 +1,13 @@
 package com.ken.zshop.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -35,6 +38,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 是否显示
 	 */
+	@TableLogic(value = "1",delval = "0")
 	private String isShow;
 	/**
 	 * 是否导航
@@ -53,4 +57,7 @@ public class CategoryEntity implements Serializable {
 	 */
 	private Integer templateId;
 
+	//一个节点包含N个子节点
+	@TableField(exist = false)
+	private List<CategoryEntity> children;
 }
