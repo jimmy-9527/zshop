@@ -38,7 +38,6 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 是否显示
 	 */
-	@TableLogic(value = "1",delval = "0")
 	private String isShow;
 	/**
 	 * 是否导航
