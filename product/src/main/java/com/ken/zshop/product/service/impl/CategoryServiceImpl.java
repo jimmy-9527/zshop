@@ -46,6 +46,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /**
+     * 批量删除(逻辑)
+     * @param asList
+     */
+    @Override
+    public void removeNodesByIds(List<Integer> asList) {
+        baseMapper.deleteBatchIds(asList);
+    }
+
+    /**
      * 获取当前节点的子节点
      * @param first
      * @param all
