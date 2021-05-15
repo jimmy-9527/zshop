@@ -98,6 +98,13 @@ public class AttrGroupController {
         return R.ok();
     }
 
+    @GetMapping("{attrGroupId}/attr/relation")
+    public R getAttrRelation(@PathVariable("attrGroupId") Long attrGroupId){
+        List<AttrEntity> entities = attrService.getRelationAttr(attrGroupId);
+        return R.ok().put("data",entities);
+
+    }
+
     @PostMapping("attr/relation/delete")
     public R deleteRelation(@RequestBody AttrGroupReationVo[] vos){
         attrService.deleteRelation(vos);
