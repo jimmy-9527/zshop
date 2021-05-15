@@ -1,9 +1,12 @@
 package com.ken.zshop.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.ken.zshop.product.entity.AttrEntity;
+import com.ken.zshop.product.service.AttrAttrgroupRelationService;
 import com.ken.zshop.product.service.AttrService;
 import com.ken.zshop.product.service.CategoryService;
 import com.ken.zshop.product.vo.AttrGroupReationVo;
@@ -35,6 +38,9 @@ public class AttrGroupController {
 
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
 
     /**
      * 列表，不同分类加载不同的属性分组
@@ -105,4 +111,12 @@ public class AttrGroupController {
         PageUtils page = attrService.getNoRelationAttr(params,attrGroupId);
         return R.ok().put("page",page);
     }
+
+    @PostMapping("/attr/relation")
+    public R relationAttr(@RequestBody List<AttrGroupReationVo> vos){
+        attrAttrgroupRelationService.saveBatch(vos);
+
+        return R.ok();
+    }
+
 }
