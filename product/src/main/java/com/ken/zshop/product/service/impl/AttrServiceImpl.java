@@ -215,4 +215,48 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }).collect(Collectors.toList());
         attrAttrgroupRelationDao.deleteBatchRelation(entities);
     }
+
+    /**
+     * 根据属性分组id，关联哪些可以关联的属性
+     * @param params
+     * @param attrGroupId
+     * @return
+     */
+    @Override
+    public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrGroupId) {
+        //1 当前分组只能关联自己所属分类里面的所有属性
+        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupId);
+        Integer categoryId=  attrGroupEntity.getCategoryId();
+        //2 当前分组只能关联别的分组没有引用的属性
+        //2.1 获取当前分类下的其他分组
+        List<AttrGroupEntity> group = attrGroupDao.selectList(
+                new QueryWrapper<AttrGroupEntity>().eq("category_id",categoryId)
+        );
+        List<Long> collect = group.stream().map(item->{
+            return item.getId();
+        }).collect(Collectors.toList());
+        //2.2 这些分组关联的属性
+        List<AttrAttrgroupRelationEntity> groupId = attrAttrgroupRelationDao.selectList(
+                new QueryWrapper<AttrAttrgroupRelationEntity>().in("attr_group_id",collect)
+        );
+        List<Long> attrIds = groupId.stream().map(item->{
+            return item.getAttrId();
+        }).collect(Collectors.toList());
+        //2.3 从当前分类的所有所有属性移除这些属性
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>().eq("category_id",categoryId).
+                eq("attr_type",ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
+
+        if(attrIds!=null&&attrIds.size()>0){
+            wrapper.notIn("id",attrIds);
+        }
+        String key = (String)params.get("key");
+        if(!StringUtils.isEmpty(key)){
+            wrapper.and(w->{
+                w.eq("id",key).or().like("name",key);
+            });
+        }
+        IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params),wrapper);
+        PageUtils pageUtils = new PageUtils(page);
+        return pageUtils;
+    }
 }
