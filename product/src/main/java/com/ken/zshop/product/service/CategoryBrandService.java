@@ -20,5 +20,7 @@ public interface CategoryBrandService extends IService<CategoryBrandEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     List<CategoryBrandEntity> getCategoryBrands(QueryWrapper<CategoryBrandEntity> brand_id);
+
+    void removeCategoryBrandEntity(QueryWrapper<CategoryBrandEntity> queryWrapper);
 }
 

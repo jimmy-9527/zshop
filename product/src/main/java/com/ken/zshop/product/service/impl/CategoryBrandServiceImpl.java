@@ -58,4 +58,10 @@ public class CategoryBrandServiceImpl extends ServiceImpl<CategoryBrandDao, Cate
 
         return list;
     }
+
+    @Override
+    public void removeCategoryBrandEntity(QueryWrapper<CategoryBrandEntity> queryWrapper) {
+        this.remove(queryWrapper);
+    }
+
 }

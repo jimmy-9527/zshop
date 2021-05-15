@@ -88,15 +88,13 @@ public class CategoryBrandController {
         return R.ok();
     }
 
-    /**
-     * 删除
-     */
     @RequestMapping("/delete")
-    // @RequiresPermissions("product:categorybrand:delete")
-    public R delete(@RequestBody Integer[] ids){
-		categoryBrandService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody CategoryBrandEntity categoryBrand){
+        QueryWrapper<CategoryBrandEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("brand_id",categoryBrand.getBrandId()).
+                eq("category_id",categoryBrand.getCategoryId());
+        categoryBrandService.removeCategoryBrandEntity(queryWrapper);
 
         return R.ok();
     }
-
 }
