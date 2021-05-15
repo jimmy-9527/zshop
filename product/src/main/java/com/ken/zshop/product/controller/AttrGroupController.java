@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.ken.zshop.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,9 @@ public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     /**
      * 列表，不同分类加载不同的属性分组
      * categoryId 分类ID
@@ -49,8 +53,8 @@ public class AttrGroupController {
     @RequestMapping("/info/{id}")
     // @RequiresPermissions("product:attrgroup:info")
     public R info(@PathVariable("id") Long id){
-		AttrGroupEntity attrGroup = attrGroupService.getById(id);
-
+        AttrGroupEntity attrGroup = attrGroupService.getById(id);
+        attrGroup.setCategoryPath(categoryService.findCategoryPath(attrGroup.getCategoryId()));
         return R.ok().put("attrGroup", attrGroup);
     }
 

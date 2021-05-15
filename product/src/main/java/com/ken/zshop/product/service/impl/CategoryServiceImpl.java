@@ -1,6 +1,9 @@
 package com.ken.zshop.product.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +55,36 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Override
     public void removeNodesByIds(List<Integer> asList) {
         baseMapper.deleteBatchIds(asList);
+    }
+
+    /**
+     * 根据子节点id，获取节点路径(父类节点ID)
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public Integer[] findCategoryPath(Integer categoryId) {
+        List<Integer> paths = new ArrayList<>();
+        List<Integer> parentPath = this.findParentPath(categoryId,paths);
+        //颠倒顺序
+        Collections.reverse(parentPath);
+        return parentPath.toArray(new Integer[parentPath.size()]);
+    }
+
+    /**
+     * 查询父节点ID
+     * id 当前节点ID
+     * @return
+     */
+    private List<Integer> findParentPath(Integer id,List<Integer> paths){
+        paths.add(id);
+        //根据id查询当前bean对象
+        CategoryEntity categoryEntity = this.getById(id);
+        if(categoryEntity.getParentId()!=0){ //如果不为0，表示有父节点
+            findParentPath(categoryEntity.getParentId(),paths);
+        }
+        //返回包含节点id的集合
+        return paths;
     }
 
     /**
