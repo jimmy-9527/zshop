@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ListValue {
 
-    String message() default "{com.kkb.cubemall.common.valid.ListValue.message}";
+    String message() default "{com.ken.zshop.common.valid.ListValue.message}";
 
     Class<?>[] groups() default { };
 
