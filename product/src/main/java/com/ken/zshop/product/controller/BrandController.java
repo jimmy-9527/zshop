@@ -63,17 +63,8 @@ public class BrandController {
      */
     @RequestMapping("/save")
     // @RequiresPermissions("product:brand:save")
-    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand, BindingResult bindingResult){
-        if (bindingResult.hasErrors()) {
-            Map<String, String> map = new HashMap<>();
-            bindingResult.getFieldErrors().forEach((item)->{
-                String field = item.getField();
-                String message = item.getDefaultMessage();
-                map.put(field, message);
-            });
-        } else {
-            brandService.save(brand);
-        }
+    public R save(@RequestBody BrandEntity brand){
+        brandService.save(brand);
 
         return R.ok();
     }
