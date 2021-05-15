@@ -9,6 +9,7 @@ import com.ken.zshop.product.entity.AttrAttrgroupRelationEntity;
 import com.ken.zshop.product.entity.AttrGroupEntity;
 import com.ken.zshop.product.entity.CategoryEntity;
 import com.ken.zshop.product.service.CategoryService;
+import com.ken.zshop.product.vo.AttrGroupReationVo;
 import com.ken.zshop.product.vo.AttrRespVo;
 import com.ken.zshop.product.vo.AttrVo;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -175,5 +178,41 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                 attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
             }
         }
+    }
+
+    /**
+     * 根据属性分组id获取属性列表
+     * @param attrGroupId
+     * @return
+     */
+    @Override
+    public List<AttrEntity> getRelationAttr(Long attrGroupId) {
+        //获取属性分组及属性关联关系
+        List<AttrAttrgroupRelationEntity> entities = attrAttrgroupRelationDao.selectList(
+                new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id",attrGroupId)
+        );
+        List<Long> attrids = entities.stream().map(attr->{
+            return attr.getAttrId();
+        }).collect(Collectors.toList());
+
+        if(attrids==null||attrids.size()<=0){
+            return null;
+        }
+        Collection<AttrEntity> attrEntities = this.listByIds(attrids);
+        return (List<AttrEntity>)attrEntities;
+    }
+
+    /**
+     * 删除属性分组及属性对应关系，根据属性id及属性分组id 的集合
+     * @param vos
+     */
+    @Override
+    public void deleteRelation(AttrGroupReationVo[] vos) {
+        List<AttrAttrgroupRelationEntity> entities = Arrays.asList(vos).stream().map(item->{
+            AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+            BeanUtils.copyProperties(item,relationEntity);
+            return relationEntity;
+        }).collect(Collectors.toList());
+        attrAttrgroupRelationDao.deleteBatchRelation(entities);
     }
 }

@@ -4,13 +4,11 @@ import java.util.Arrays;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.ken.zshop.product.service.AttrService;
 import com.ken.zshop.product.service.CategoryService;
+import com.ken.zshop.product.vo.AttrGroupReationVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ken.zshop.product.entity.AttrGroupEntity;
 import com.ken.zshop.product.service.AttrGroupService;
@@ -34,6 +32,9 @@ public class AttrGroupController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AttrService attrService;
 
     /**
      * 列表，不同分类加载不同的属性分组
@@ -91,4 +92,10 @@ public class AttrGroupController {
         return R.ok();
     }
 
+    @PostMapping("attr/relation/delete")
+    public R deleteRelation(@RequestBody AttrGroupReationVo[] vos){
+        attrService.deleteRelation(vos);
+        return R.ok();
+
+    }
 }
