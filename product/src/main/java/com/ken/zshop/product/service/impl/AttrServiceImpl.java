@@ -77,8 +77,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
      * @return
      */
     @Override
-    public PageUtils queryBaseAttrPage(Map<String, Object> params, Integer categoryId) {
-        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("attr_type", 1);//基本属性
+    public PageUtils queryBaseAttrPage(Map<String, Object> params, Integer categoryId, String attrType) {
+        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("attr_type", attrType);//基本属性
         if(categoryId!=0){ //如果等于0，查询全部
             queryWrapper.eq("category_id",categoryId);
         }
