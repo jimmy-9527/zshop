@@ -1,6 +1,7 @@
 package com.ken.zshop.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.ken.zshop.common.constant.ProductConstant;
 import com.ken.zshop.product.dao.AttrAttrgroupRelationDao;
 import com.ken.zshop.product.dao.AttrGroupDao;
 import com.ken.zshop.product.dao.CategoryDao;
@@ -62,11 +63,13 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         AttrEntity attrEntity = new AttrEntity();
         BeanUtils.copyProperties(attr,attrEntity);
         this.save(attrEntity);
-        //保存attrgroupId
-        AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
-        attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId()); //属性分组ID
-        attrAttrgroupRelationEntity.setAttrId(attrEntity.getId()); //属性ID
-        attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+        if (attrEntity.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) {
+            //保存attrgroupId
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
+            attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId()); //属性分组ID
+            attrAttrgroupRelationEntity.setAttrId(attrEntity.getId()); //属性ID
+            attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+        }
     }
 
     //service关联分类名称、分组名称
@@ -74,11 +77,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
      *
      * @param params
      * @param categoryId 分类ID
+     * @param attrType
      * @return
      */
     @Override
     public PageUtils queryBaseAttrPage(Map<String, Object> params, Integer categoryId, String attrType) {
-        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("attr_type", "base".equalsIgnoreCase(attrType) ? 1 : 0);//基本属性或销售属性
+        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("attr_type","base".equalsIgnoreCase(attrType)? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode() :ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode());//基本属性或销售属性
         if(categoryId!=0){ //如果等于0，查询全部
             queryWrapper.eq("category_id",categoryId);
         }
@@ -155,7 +159,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         AttrEntity attrEntity = new AttrEntity();
         BeanUtils.copyProperties(attrVo,attrEntity);
         this.updateById(attrEntity);
-        if (attrVo.getAttrType() == 1) { //判断基本属性添加分组，销售属性不添加分组
+        if (attrVo.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) { //判断基本属性添加分组，销售属性不添加分组
             AttrAttrgroupRelationEntity attrAttrgroupRelationEntity =
                     new AttrAttrgroupRelationEntity();
             attrAttrgroupRelationEntity.setAttrId(attrVo.getId());
