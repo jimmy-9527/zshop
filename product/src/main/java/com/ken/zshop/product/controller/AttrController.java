@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.ken.zshop.product.vo.AttrRespVo;
 import com.ken.zshop.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +59,7 @@ public class AttrController {
     @RequestMapping("/info/{id}")
     // @RequiresPermissions("product:attr:info")
     public R info(@PathVariable("id") Long id){
-		AttrEntity attr = attrService.getById(id);
+        AttrRespVo attr = attrService.getAttrInfo(id);
 
         return R.ok().put("attr", attr);
     }
@@ -79,9 +80,9 @@ public class AttrController {
      */
     @RequestMapping("/update")
     // @RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
-
+    public R update(@RequestBody AttrVo attr){
+		// attrService.updateById(attr);
+        attrService.updateAttr(attr);
         return R.ok();
     }
 

@@ -1,11 +1,13 @@
 package com.ken.zshop.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.ken.zshop.product.dao.AttrAttrgroupRelationDao;
 import com.ken.zshop.product.dao.AttrGroupDao;
 import com.ken.zshop.product.dao.CategoryDao;
 import com.ken.zshop.product.entity.AttrAttrgroupRelationEntity;
 import com.ken.zshop.product.entity.AttrGroupEntity;
 import com.ken.zshop.product.entity.CategoryEntity;
+import com.ken.zshop.product.service.CategoryService;
 import com.ken.zshop.product.vo.AttrRespVo;
 import com.ken.zshop.product.vo.AttrVo;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +42,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -110,5 +115,61 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }).collect(Collectors.toList());
         pageUtils.setList(respVos);
         return pageUtils;
+    }
+
+    @Override
+    public AttrRespVo getAttrInfo(Long id) {
+
+        AttrRespVo attrRespVo = new AttrRespVo();
+        //根据数据库查询
+        AttrEntity attrEntity = this.getById(id);
+        BeanUtils.copyProperties(attrEntity,attrRespVo);
+        if(attrEntity.getAttrType()==1){
+            //获取分组名称，通过关联表
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity =
+                    attrAttrgroupRelationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id",attrEntity.getId()));
+            if(attrAttrgroupRelationEntity!=null&&attrAttrgroupRelationEntity.getAttrGroupId()!=null){
+                AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrAttrgroupRelationEntity.getAttrGroupId());
+                //设置分组名称
+                attrRespVo.setGroupName(attrGroupEntity.getName());
+                //设置分组ID
+                attrRespVo.setAttrGroupId(attrAttrgroupRelationEntity.getAttrGroupId());
+            }
+        }
+
+        Integer categoryId = attrEntity.getCategoryId();
+        Integer[] categoryPath = categoryService.findCategoryPath(categoryId);
+        attrRespVo.setCategoryPath(categoryPath);
+
+        //获取分类名称
+        CategoryEntity categoryEntity = categoryDao.selectById(attrEntity.getCategoryId());
+        if(categoryEntity!=null){
+            attrRespVo.setCategoryName(categoryEntity.getName());
+        }
+        return attrRespVo;
+    }
+
+    @Transactional
+    @Override
+    public void updateAttr(AttrVo attrVo) {
+        AttrEntity attrEntity = new AttrEntity();
+        BeanUtils.copyProperties(attrVo,attrEntity);
+        this.updateById(attrEntity);
+        if (attrVo.getAttrType() == 1) { //判断基本属性添加分组，销售属性不添加分组
+            AttrAttrgroupRelationEntity attrAttrgroupRelationEntity =
+                    new AttrAttrgroupRelationEntity();
+            attrAttrgroupRelationEntity.setAttrId(attrVo.getId());
+            attrAttrgroupRelationEntity.setAttrGroupId(attrVo.getAttrGroupId());
+
+            //判断当前关联关系是新增还是修改
+            Integer count = attrAttrgroupRelationDao.
+                    selectCount(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id",attrVo.getId()));
+            if(count>0){ //修改
+                attrAttrgroupRelationDao.update(attrAttrgroupRelationEntity,
+                        new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id",attrVo.getId()));
+            }else {
+                attrAttrgroupRelationDao.insert(attrAttrgroupRelationEntity);
+            }
+        }
     }
 }
