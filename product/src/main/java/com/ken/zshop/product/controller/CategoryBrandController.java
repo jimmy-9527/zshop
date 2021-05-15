@@ -1,15 +1,13 @@
 package com.ken.zshop.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ken.zshop.product.entity.CategoryBrandEntity;
 import com.ken.zshop.product.service.CategoryBrandService;
@@ -42,6 +40,20 @@ public class CategoryBrandController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 根据品牌ID查询分类列表
+     * @param brandId 品牌ID
+     * @return
+     */
+    @GetMapping("/category/list")
+    public R categorylist(@RequestParam("brandId") Integer brandId){
+
+        QueryWrapper<CategoryBrandEntity> queryWrapper = new QueryWrapper<>();
+
+        List<CategoryBrandEntity> data = categoryBrandService.getCategoryBrands(queryWrapper.eq("brand_id",brandId));
+
+        return R.ok().put("data", data);
+    }
 
     /**
      * 信息
