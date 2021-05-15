@@ -1,10 +1,14 @@
 package com.ken.zshop.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.ken.zshop.common.valid.AddGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,8 +63,17 @@ public class BrandController {
      */
     @RequestMapping("/save")
     // @RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            Map<String, String> map = new HashMap<>();
+            bindingResult.getFieldErrors().forEach((item)->{
+                String field = item.getField();
+                String message = item.getDefaultMessage();
+                map.put(field, message);
+            });
+        } else {
+            brandService.save(brand);
+        }
 
         return R.ok();
     }
