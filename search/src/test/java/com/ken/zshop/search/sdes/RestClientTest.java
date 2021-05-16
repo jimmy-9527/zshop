@@ -32,18 +32,4 @@ public class RestClientTest {
     public void testRestClient() throws IOException {
         restHighLevelClient.indices().create(new CreateIndexRequest("test"), RequestOptions.DEFAULT);
     }
-
-    @Test
-    public void testAggs() throws IOException {
-        SearchRequest request = new SearchRequest()
-                .indices("blog_1")
-                .source(new SearchSourceBuilder()
-                        .query(QueryBuilders.matchAllQuery())
-                        .aggregation(new ValueCountAggregationBuilder("doc_count").field("mobile"))
-                        .aggregation(new TermsAggregationBuilder("group_count").field("mobile").size(10))
-
-                );
-        SearchResponse response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
-        System.out.println(response);
-    }
 }
