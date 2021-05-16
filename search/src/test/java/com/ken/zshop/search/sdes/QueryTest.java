@@ -72,6 +72,7 @@ public class QueryTest {
                         //高亮显示的后缀
                         .postTags("</em>")
                 )
+                .addAggregation(new TermsAggregationBuilder("mobile_group").field("mobile"))
                 .build();
         //使用template对象执行查询
         SearchHits<Blog> searchHits = template.search(query, Blog.class);
@@ -93,6 +94,13 @@ public class QueryTest {
             blog.setTitle(title);
             blog.setContent(content);
             System.out.println(blog);
+        });
+        Aggregations aggregations = searchHits.getAggregations();
+        ParsedStringTerms aggregation = aggregations.get("mobile_group");
+        List<? extends Terms.Bucket> buckets = aggregation.getBuckets();
+        buckets.forEach(e-> {
+            System.out.println(e.getKeyAsString());
+            System.out.println(e.getDocCount());
         });
     }
 }
