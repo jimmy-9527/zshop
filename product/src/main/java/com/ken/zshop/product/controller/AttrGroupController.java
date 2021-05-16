@@ -10,6 +10,7 @@ import com.ken.zshop.product.service.AttrAttrgroupRelationService;
 import com.ken.zshop.product.service.AttrService;
 import com.ken.zshop.product.service.CategoryService;
 import com.ken.zshop.product.vo.AttrGroupReationVo;
+import com.ken.zshop.product.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,17 @@ public class AttrGroupController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 根据分类ID获取属性分组以及对应的属性
+     * @param categoryId
+     * @return
+     */
+
+    @GetMapping("/{categoryId}/withattr")
+    public R getAttrGroupWithattr(@PathVariable("categoryId") Integer categoryId){
+        List<AttrGroupWithAttrsVo> vos = attrGroupService.getAttrGroupWithattrByCategroyId(categoryId);
+        return R.ok().put("data", vos);
+    }
 
     /**
      * 信息
