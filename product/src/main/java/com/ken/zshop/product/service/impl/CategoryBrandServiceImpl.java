@@ -4,11 +4,14 @@ import com.ken.zshop.product.dao.BrandDao;
 import com.ken.zshop.product.dao.CategoryDao;
 import com.ken.zshop.product.entity.BrandEntity;
 import com.ken.zshop.product.entity.CategoryEntity;
+import com.ken.zshop.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -28,6 +31,12 @@ public class CategoryBrandServiceImpl extends ServiceImpl<CategoryBrandDao, Cate
 
     @Autowired
     private BrandDao brandDao;
+
+    @Autowired
+    private CategoryBrandDao categoryBrandDao;
+
+    @Autowired
+    BrandService brandService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -62,6 +71,20 @@ public class CategoryBrandServiceImpl extends ServiceImpl<CategoryBrandDao, Cate
     @Override
     public void removeCategoryBrandEntity(QueryWrapper<CategoryBrandEntity> queryWrapper) {
         this.remove(queryWrapper);
+    }
+
+    //根据分类ID查询品牌列表
+    @Override
+    public List<BrandEntity> getBrandsByCategoryId(Integer categoryId) {
+        //根据分类id查询分类与品牌的对应关系
+        List<CategoryBrandEntity> categoryBrandEntities =
+                categoryBrandDao.selectList(new QueryWrapper<CategoryBrandEntity>().eq("category_id",categoryId));
+        List<BrandEntity> collect = categoryBrandEntities.stream().map(item->{
+            Integer brandId = item.getBrandId();
+            BrandEntity brandEntity = brandService.getById(brandId);
+            return brandEntity; }
+        ).collect(Collectors.toList());
+        return collect;
     }
 
 }

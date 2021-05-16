@@ -3,9 +3,12 @@ package com.ken.zshop.product.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ken.zshop.product.entity.BrandEntity;
+import com.ken.zshop.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,5 +99,26 @@ public class CategoryBrandController {
         categoryBrandService.removeCategoryBrandEntity(queryWrapper);
 
         return R.ok();
+    }
+
+    /**
+     * 根据分类id查询品牌
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/brands/list")
+    //@RequiresPermissions("cubegoods:categorybrand:info")
+    public R relationBrandsList(@RequestParam("categoryId") Integer categoryId){
+        List<BrandEntity> vos = categoryBrandService.getBrandsByCategoryId(categoryId);
+
+        //返回brandVo
+        List<BrandVo> collect = vos.stream().map(item->{
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+
+        return R.ok().put("data", collect);
     }
 }

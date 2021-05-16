@@ -3,6 +3,7 @@ package com.ken.zshop.product.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ken.zshop.common.utils.PageUtils;
+import com.ken.zshop.product.entity.BrandEntity;
 import com.ken.zshop.product.entity.CategoryBrandEntity;
 
 import java.util.List;
@@ -22,5 +23,7 @@ public interface CategoryBrandService extends IService<CategoryBrandEntity> {
     List<CategoryBrandEntity> getCategoryBrands(QueryWrapper<CategoryBrandEntity> brand_id);
 
     void removeCategoryBrandEntity(QueryWrapper<CategoryBrandEntity> queryWrapper);
+
+    List<BrandEntity> getBrandsByCategoryId(Integer categoryId);
 }
 
