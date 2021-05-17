@@ -41,4 +41,10 @@ public class ZShopExceptionControllerAdvice {
         throwable.printStackTrace();;
         return R.error(BizCodeEnum.UNKNONW_EXCEPTION.getCode(),BizCodeEnum.UNKNONW_EXCEPTION.getMessage());
     }
+
+    @ExceptionHandler(value = RemoteServiceCallExeption.class)
+    public R handlerException(RemoteServiceCallExeption exeption){
+        exeption.printStackTrace();;
+        return R.error(BizCodeEnum.REMOTESERVICE_EXCEPTION.getCode(),exeption.getMessage());
+    }
 }

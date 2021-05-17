@@ -19,4 +19,7 @@ public interface SearchFeign {
 
     @PostMapping("/blog2")
     public R getBlog2(@RequestBody Blog blog, @RequestParam("name") String name);
+
+    @GetMapping("/spuinfo/putonsale/{spuId}")
+    R putOnSale(@PathVariable("spuId") Long spuId);
 }

@@ -5,7 +5,8 @@ package com.ken.zshop.common.exception;
  */
 public enum BizCodeEnum {
     VAILD_EXCEPTION(10001,"参数校验失败"),
-    UNKNONW_EXCEPTION(20000,"系统未知异常");
+    UNKNONW_EXCEPTION(20000,"系统未知异常"),
+    REMOTESERVICE_EXCEPTION(30000,"远程服务调用异常");
 
     private int code;
     private String message;

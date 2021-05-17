@@ -1,6 +1,9 @@
 package com.ken.zshop.product.service.impl;
 
+import com.ken.zshop.common.utils.R;
 import com.ken.zshop.product.entity.*;
+import com.ken.zshop.product.exception.RemoteServiceCallExeption;
+import com.ken.zshop.product.feign.SearchFeign;
 import com.ken.zshop.product.service.*;
 import com.ken.zshop.product.vo.*;
 import org.apache.commons.lang3.StringUtils;
@@ -46,6 +49,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     SkuSaleAttrValueService skuSaleAttrValueService;
+
+    @Autowired
+    private SearchFeign searchFeign;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -153,5 +159,25 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
     }
 
+    @Override
+    @Transactional(rollbackFor = RemoteServiceCallExeption.class)
+    public R putOnSale(Long spuId) throws RemoteServiceCallExeption {
+        //1.接收controller传递过来的参数，spuId
+        //2.根据spuID找到对应的商品修改商品状态
+        //        修改tb_spuinfo表中的publish_status字段为1
+        SpuInfoEntity entity = new SpuInfoEntity();
+        entity.setId(spuId);
+        entity.setPublishStatus(1);
+        baseMapper.updateById(entity);
+        //3.需要把商品添加到索引库中，调用search工程的服务，实现ES索引库的添加。
 
+        try {
+            R r = searchFeign.putOnSale(spuId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RemoteServiceCallExeption("远程服务调用失败：商品上架失败");
+        }
+        //4.返回结果
+        return R.ok("商品上架成功");
+    }
 }
