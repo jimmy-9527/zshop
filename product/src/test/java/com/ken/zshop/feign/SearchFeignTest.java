@@ -26,30 +26,4 @@ public class SearchFeignTest {
         R r = searchFeign.sayHello("tom");
         System.out.println(r);
     }
-
-//    @Test
-//    public void testSayHello2() {
-//        R r = searchFeign.sayHello2("张三");
-//        System.out.println(r);
-//    }
-//
-//    @Test
-//    public void testGetBlog() {
-//        Blog blog = new Blog();
-//        blog.setId(1l);
-//        blog.setTitle("hello");
-//        blog.setContent("world");
-//        R r = searchFeign.getBlog(blog);
-//        System.out.println(r);
-//    }
-//
-//    @Test
-//    public void testGetBlog2() {
-//        Blog blog = new Blog();
-//        blog.setId(1l);
-//        blog.setTitle("hello");
-//        blog.setContent("world");
-//        R r = searchFeign.getBlog2(blog, "xiaoliu");
-//        System.out.println(r);
-//    }
 }

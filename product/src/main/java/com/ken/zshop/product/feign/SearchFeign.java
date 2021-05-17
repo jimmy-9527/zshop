@@ -10,16 +10,4 @@ public interface SearchFeign {
 
     @GetMapping("hello/{name}")
     R sayHello(@PathVariable("name") String name);
-
-//    @GetMapping("hello")
-//    R sayHello2(@RequestParam("name") String name);
-
-//    @PostMapping("/blog")
-//    public R getBlog(@RequestBody Blog blog);
-//
-//    @PostMapping("/blog2")
-//    public R getBlog2(@RequestBody Blog blog, @RequestParam("name") String name);
-//
-//    @GetMapping("/spuinfo/putonsale/{spuId}")
-//    R putOnSale(@PathVariable("spuId") Long spuId);
 }
