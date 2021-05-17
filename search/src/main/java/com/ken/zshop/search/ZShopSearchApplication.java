@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2021/4/25 18:30
  */
 @SpringBootApplication
+@MapperScan("com.ken.zshop.search.dao")
 public class ZShopSearchApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZShopSearchApplication.class);
