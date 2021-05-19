@@ -16,6 +16,8 @@
         <module>common</module>
         <module>gateway</module>
         <module>search</module>
+        <module>rabbit-provider</module>
+        <module>rabbit-consumer</module>
     </modules>
 
 </project>
