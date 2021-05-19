@@ -1,4 +1,4 @@
-package com.cubemall.es;
+package com.ken.zshop.search.es;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
