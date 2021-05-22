@@ -9,8 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ken.zshop</groupId>
-    <artifactId>rabbit-consumer</artifactId>
+    <artifactId>rabbit</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>rabbit-consumer</module>
+        <module>rabbit-provider</module>
+    </modules>
 
 
 </project>
