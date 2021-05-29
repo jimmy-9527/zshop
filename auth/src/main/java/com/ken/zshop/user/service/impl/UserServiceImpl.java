@@ -64,6 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         // 判断用户是否存在
         if(userEntity!=null){
             // 2、匹配用户的密码
+            System.out.println(userEntity.getPassword());
             boolean matches = new BCryptPasswordEncoder().matches(userDTO.getPassword(), userEntity.getPassword());
             // 判断密码是否匹配
             if(matches){

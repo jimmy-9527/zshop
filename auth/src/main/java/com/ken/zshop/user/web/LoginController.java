@@ -16,13 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * @ClassName LoginController
- * @Description
- * @Author hubin
- * @Date 2021/5/18 17:00
- * @Version V1.0
- **/
 @Controller
 public class LoginController {
 
@@ -33,12 +26,6 @@ public class LoginController {
 
     /**
      * @Description: 访问登录页面
-     * @Author: hubin
-     * @CreateDate: 2021/5/18 17:14
-     * @UpdateUser: hubin
-     * @UpdateDate: 2021/5/18 17:14
-     * @UpdateRemark: 修改内容
-     * @Version: 1.0
      */
     @RequestMapping("/")
     public String showLogin(){
@@ -62,8 +49,7 @@ public class LoginController {
         // 调用服务层登录方法
         R r = userService.login(userDTO);
         // 判断是否登录成功
-        //if(r.getCode()==0){
-        if (false) {
+        if(r.getCode()==0){
             // 获取token
             String token = (String) r.get("msg");
 
@@ -76,7 +62,7 @@ public class LoginController {
                     true);
 
             // 返回到首页，详情页
-            return "redirect:http://localhost:8081/15.html";
+            return "redirect:http://localhost:10000/15.html";
         }else{
             //否则登录失败
             //重新登录
@@ -87,12 +73,6 @@ public class LoginController {
 
     /**
      * @Description: 根据token查询用户身份信息
-     * @Author: hubin
-     * @CreateDate: 2021/5/19 18:27
-     * @UpdateUser: hubin
-     * @UpdateDate: 2021/5/19 18:27
-     * @UpdateRemark: 修改内容
-     * @Version: 1.0
      * @url : http://localhost:8082/user/info/"+token
      */
     @ResponseBody
