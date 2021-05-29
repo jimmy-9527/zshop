@@ -17,6 +17,7 @@
         <module>gateway</module>
         <module>search</module>
         <module>rabbit</module>
+        <module>canal</module>
     </modules>
 
 </project>
