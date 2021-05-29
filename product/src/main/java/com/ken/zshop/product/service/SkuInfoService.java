@@ -3,6 +3,7 @@ package com.ken.zshop.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ken.zshop.common.utils.PageUtils;
 import com.ken.zshop.product.entity.SkuInfoEntity;
+import com.ken.zshop.product.vo.SkuItemVo;
 
 import java.util.Map;
 
@@ -18,5 +19,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void saveSkuInfo(SkuInfoEntity skuInfoEntity);
+
+    public SkuItemVo skuItem(Long skuId);
 }
 

@@ -2,7 +2,10 @@ package com.ken.zshop.product.dao;
 
 import com.ken.zshop.product.entity.SkuSaleAttrValueEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ken.zshop.product.vo.SkuItemSaleAttrVo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * sku销售属性值
@@ -13,5 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SkuSaleAttrValueDao extends BaseMapper<SkuSaleAttrValueEntity> {
-	
+    public List<SkuItemSaleAttrVo> getSaleAttrs(Long spuId);
 }

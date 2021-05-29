@@ -23,3 +23,10 @@ mybatis-plus:
 logging:
   level:
     com.ken.zshop: debug
+
+# 线程池相关的配置
+zshop:
+  thread:
+    core-pool-size: 20
+    max-pool-size: 200
+    keep-alive-time: 10

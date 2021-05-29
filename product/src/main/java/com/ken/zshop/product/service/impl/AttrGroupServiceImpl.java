@@ -3,6 +3,8 @@ package com.ken.zshop.product.service.impl;
 import com.ken.zshop.product.entity.AttrEntity;
 import com.ken.zshop.product.service.AttrService;
 import com.ken.zshop.product.vo.AttrGroupWithAttrsVo;
+import com.ken.zshop.product.vo.GroupAttrParamVo;
+import com.ken.zshop.product.vo.SpuAttrGroupVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +78,16 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             return attrsVo;
         }).collect(Collectors.toList());
         return result;
+    }
+
+    @Override
+    public List<SpuAttrGroupVo> getGroupAttr(Long spuId, Long categoryId) {
+        GroupAttrParamVo paramVo = new GroupAttrParamVo();
+        paramVo.setSpuId(spuId);
+        paramVo.setCategoryId(categoryId);
+
+        List<SpuAttrGroupVo> attrGroupVos =  this.baseMapper.getGroupAttr(paramVo);
+
+        return attrGroupVos;
     }
 }

@@ -13,5 +13,29 @@
         <result property="attrSort" column="attr_sort"/>
     </resultMap>
 
+    <resultMap id="spuSaleAttrMap" type="com.ken.zshop.product.vo.SkuItemSaleAttrVo">
+        <result property="attrId" column="attr_id"></result>
+        <result property="attrName" column="attr_name"></result>
+        <collection property="attrValues" ofType="com.ken.zshop.product.vo.AttrValueAndSkuIdVo">
+            <result property="skuIds" column="skuIds"></result>
+            <result property="attrValue" column="attr_value"></result>
+        </collection>
+    </resultMap>
 
+    <!--sql： tb_sku_info ,tb_sku_sale_attr_value-->
+    <select id="getSaleAttrs" resultMap="spuSaleAttrMap" parameterType="java.lang.Long">
+        SELECT
+          v.attr_id,
+          v.attr_name,
+          v.attr_value,
+          GROUP_CONCAT(v.sku_id) AS skuIds
+        FROM
+          tb_sku_info i
+          LEFT JOIN tb_sku_sale_attr_value v
+            ON i.id = v.sku_id
+        WHERE spu_id = #{spuId}
+        GROUP BY v.attr_id,
+          v.attr_name,
+          v.attr_value
+    </select>
 </mapper>
