@@ -18,6 +18,7 @@
         <module>search</module>
         <module>rabbit</module>
         <module>canal</module>
+        <module>coupon</module>
     </modules>
 
 </project>
