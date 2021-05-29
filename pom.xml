@@ -20,6 +20,7 @@
         <module>canal</module>
         <module>coupon</module>
         <module>auth</module>
+        <module>auth2</module>
     </modules>
 
 </project>
