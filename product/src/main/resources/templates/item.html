@@ -604,7 +604,7 @@
 							<div class="fl">
 								<ul class="btn-choose unstyled">
 									<li>
-										<a href="javascript:void(0)" @click="addCart()" class="sui-btn  btn-danger addshopcar">加入购物车</a>
+                                        <a href="javascript:void(0)" th:attr="skuId=${item.info.id}" class="sui-btn  btn-danger addshopcar">加入购物车</a>
 									</li>
 								</ul>
 							</div>
@@ -1388,6 +1388,37 @@ three
         // 拼接请求
         location.href = "http://localhost:10000/"+sku_1+".html";
 
+    })
+
+    // 点击事件1： + 实现购物车数据+1
+    $("div.controls a.plus").click(function () {
+        // 获取input dom元素对象
+        $("input.itxt").val(parseInt($("input.itxt").val())+1);
+    })
+
+    // 点击事件2: - 实现购物车数据 -1
+    $("div.controls a.mins").click(function () {
+
+        // 判断不能减为小于等于1
+        if($("input.itxt").val() <= 1){
+            return;
+        }
+
+        $("input.itxt").val(parseInt($("input.itxt").val())-1);
+    })
+
+    // 点击事件3： 购物车点击事件，实现购物车请求跳转，去添加购物车
+    $(".addshopcar").click(function () {
+
+        // 获取商品数量
+        var num = $("input.itxt").val();
+
+        // 获取skuID
+        var skuId = $(this).attr("skuId");
+
+        // 跳转到购物车系统
+        // 思考： 传递商品数量Num,商品skuID
+        location.href = "http://localhost:8083/cart/addCart?num="+num+"&skuId="+skuId;
     })
 
 
