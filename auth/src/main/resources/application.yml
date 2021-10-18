@@ -28,12 +28,12 @@ mybatis-plus:
 logging:
   level:
     com.ken.zshop: debug
-# client_secret: d4660fb2c048b91b19bea755f79ca1e1e088b175
+
 github:
   # 客户端ID
-  clientId: dca9b7495f5d72401156
+  clientId: fb8d4ad33dd96d4b66b3
   # 客户端秘钥
-  clientSecret: d4660fb2c048b91b19bea755f79ca1e1e088b175
+  clientSecret: f9196e2de8f3646d7f2b39cc3a62b67af0a679a1
   # 用户授权地址（返回授权码）
   authorizationUrl: https://github.com/login/oauth/authorize
   # 回调地址，获取access_token

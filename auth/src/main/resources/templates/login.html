@@ -39,11 +39,9 @@
 							<li class="f-item"><span>网站导航</li>
 						</ul>
 					</div>
-
 				</div>
 			</div>
 		</div>
-
 		<!--头部-->
 		<div class="header">
 			<div class="py-container">
@@ -62,16 +60,13 @@
 							</form>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
 		</div>
 	</div>
 </div>
 
 	<div class="login-box">
-
 		<!--loginArea-->
 		<div class="loginArea">
 			<div class="py-container login">
@@ -160,23 +155,17 @@
 		document.getElementById('tabOtherLogin').className = "active";
 	}
 
-	$(document).ready(function () {
-		// 表单提交
-		$("#loginbutton").click(function () {
-			$(".sui-form").submit();
-        })
+$(document).ready(function () {
+	// 表单提交
+	$("#loginbutton").click(function () {
+		$(".sui-form").submit();
+	})
 
-
-		// 授权地址
-		$("div.otherlogin li:eq(3)").click(function () {
-		    // 引导地址
-			//location.href = "https://github.com/login/oauth/authorize";
-            location.href = "/oauth/authorize";
-        });
-
-
-
-    })
+	// 授权地址
+	$("div.otherlogin li:eq(3)").click(function () {
+		location.href = "/oauth/authorize";
+	});
+})
 
 </script>
 </body>

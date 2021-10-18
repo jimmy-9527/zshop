@@ -6,13 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.PipedReader;
 import java.time.Duration;
-
 
 @Configuration
 public class RestTemplateConfig {
-
     @Autowired
     private RestTemplateBuilder restTemplateBuilder;
 
@@ -22,6 +19,5 @@ public class RestTemplateConfig {
         restTemplateBuilder.setReadTimeout(Duration.ofSeconds(5));
         return restTemplateBuilder.build();
     }
-
 }
 

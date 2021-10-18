@@ -1390,46 +1390,36 @@ three
 
     })
 
-    // 定义js方法，获取cookie中秘钥，然后把秘钥转发给后端服务，后端认证服务再去获取用户身份信息即可
-    var CUBE = {
-        checkLogin:function () {
-            // 获取cookie中秘钥：依赖jquery.cookie.js
-            var token = $.cookie("COOKIE_LOGIN_KEY");
-            // 判断是否存在
-            if(!token){
-                return;
-            }
 
-            // 异步获取用户身份信息
-            // 把token传递给认证服务，让认证服务根据token查询用户身份信息
-            $.ajax({
-                url:"http://localhost:8082/user/info/"+token,
-                dataType:"jsonp",
-                type:"GET",
-                success:function (data) {
-                    // 判断用户身份信息是否已经失效
-                    if(data.code == 500){
-                        location.href = "http://localhost:8082/";
-                    }
-
-                    // 判断是否存在
-                    if(data){
-                        var html = data.result.username + "<li class=\"f-item\">欢迎你来到慧科商城!</li>";
-                        $("div.shortcut li:eq(1)").html(html);
-                    }
-                }
-            })
-
-
-
+var CUBE = {
+    checkLogin:function () {
+        var token = $.cookie("COOKIE_LOGIN_KEY");
+        if(!token){
+            return;
         }
-    }
 
-    // 自动调用用户身份信息获取方法
-    $(function () {
-        // 调用函数方法
-        CUBE.checkLogin();
-    })
+        $.ajax({
+            url: "http://localhost:8082/user/info/" + token,
+            dataType: "jsonp",
+            type: "GET",
+            success: function (data) {
+                // 判断用户身份信息是否已经失效
+                if (data.code == 500) {
+                    location.href = "http://localhost:8082/";
+                }
+
+                if (data) {
+                    var html = data.result.username + "<li class=\"f-item\">欢迎你来到慧科商城!</li>";
+                    $("div.shortcut li:eq(1)").html(html);
+                }
+            }
+        })
+    }
+}
+
+$(function () {
+    CUBE.checkLogin();
+})
 
 </script>
 
