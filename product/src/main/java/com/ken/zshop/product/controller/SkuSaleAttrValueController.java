@@ -1,6 +1,7 @@
 package com.ken.zshop.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -87,4 +88,9 @@ public class SkuSaleAttrValueController {
         return R.ok();
     }
 
+    @RequestMapping("/sale/{skuId}")
+    public List<String> getSaleAttrsString(@PathVariable("skuId") Long skuId){
+        List<String> saleAttrsString = skuSaleAttrValueService.getSaleAttrsString(skuId);
+        return saleAttrsString;
+    }
 }

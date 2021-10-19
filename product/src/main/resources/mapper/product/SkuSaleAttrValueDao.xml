@@ -38,4 +38,12 @@
           v.attr_name,
           v.attr_value
     </select>
+
+    <select id="getSaleAttrsString" resultType="java.lang.String">
+        SELECT
+        CONCAT(attr_name, ": ", attr_value)
+        FROM
+        tb_sku_sale_attr_value
+        WHERE sku_id = #{skuId}
+    </select>
 </mapper>
