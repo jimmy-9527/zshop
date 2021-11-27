@@ -30,16 +30,6 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-
-    /**
-     * @Description: 添加购物车
-     * @Author: hubin
-     * @CreateDate: 2021/5/26 18:00
-     * @UpdateUser: hubin
-     * @UpdateDate: 2021/5/26 18:00
-     * @UpdateRemark: 修改内容
-     * @Version: 1.0
-     */
     @RequestMapping("/cart/addCart")
     public String addCart(@RequestParam("num") Integer num,
                           @RequestParam("skuId") Long skuId,
@@ -52,16 +42,6 @@ public class CartController {
         return "redirect:http://localhost:8083/cart/successPage";
     }
 
-
-    /**
-     * @Description: 调整到添加购物车成功的页面
-     * @Author: hubin
-     * @CreateDate: 2021/5/26 18:00
-     * @UpdateUser: hubin
-     * @UpdateDate: 2021/5/26 18:00
-     * @UpdateRemark: 修改内容
-     * @Version: 1.0
-     */
     @GetMapping("/cart/successPage")
     public String successPage(@RequestParam("skuId") Long skuId,
                               Model model){

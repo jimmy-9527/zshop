@@ -19,29 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
-/**
- * @ClassName CartInterceptor
- * @Description
- * @Author hubin
- * @Date 2021/5/26 14:13
- * @Version V1.0
- **/
 public class CartInterceptor implements HandlerInterceptor{
-
-
-    // 创建一个ThreadLocal对象，用来存储用户身份信息
-    // 主要用来实现数据隔离，填充的数据只属于当前线程，高并发用户情况下，每一个用户只维护自己的用户信息即可
     public static ThreadLocal<UserInfoDTO> dtoThreadLocal = new ThreadLocal<>();
 
-    /**
-     * @Description: 业务方法执行之前执行的方法
-     * @Author: hubin
-     * @CreateDate: 2021/5/26 14:15
-     * @UpdateUser: hubin
-     * @UpdateDate: 2021/5/26 14:15
-     * @UpdateRemark: 修改内容
-     * @Version: 1.0
-     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -95,15 +75,6 @@ public class CartInterceptor implements HandlerInterceptor{
         return true;
     }
 
-    /**
-     * @Description: 业务执行之后完成执行的方法
-     * @Author: hubin
-     * @CreateDate: 2021/5/26 14:15
-     * @UpdateUser: hubin
-     * @UpdateDate: 2021/5/26 14:15
-     * @UpdateRemark: 修改内容
-     * @Version: 1.0
-     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
         // 获取用户当前身份信息
@@ -123,15 +94,6 @@ public class CartInterceptor implements HandlerInterceptor{
 
     }
 
-    /**
-     * @Description: 整个任务全部完成，执行方法
-     * @Author: hubin
-     * @CreateDate: 2021/5/26 14:16
-     * @UpdateUser: hubin
-     * @UpdateDate: 2021/5/26 14:16
-     * @UpdateRemark: 修改内容
-     * @Version: 1.0
-     */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
 

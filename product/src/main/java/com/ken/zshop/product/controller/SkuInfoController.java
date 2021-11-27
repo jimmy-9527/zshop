@@ -1,5 +1,6 @@
 package com.ken.zshop.product.controller;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -87,4 +88,10 @@ public class SkuInfoController {
         return R.ok();
     }
 
+    @RequestMapping("/price/{skuId}")
+    public BigDecimal getPrice(@PathVariable("skuId") Long skuId){
+        SkuInfoEntity skuInfoEntity = skuInfoService.getById(skuId);
+        // 获取最新价格信息
+        return skuInfoEntity.getPrice();
+    }
 }

@@ -21,6 +21,7 @@
         <module>coupon</module>
         <module>auth</module>
         <module>cart</module>
+        <module>order</module>
     </modules>
 
 </project>

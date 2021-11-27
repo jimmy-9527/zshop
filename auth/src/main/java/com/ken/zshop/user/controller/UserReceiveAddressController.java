@@ -1,6 +1,7 @@
 package com.ken.zshop.user.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,12 @@ public class UserReceiveAddressController {
 		userReceiveAddressService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @RequestMapping("/address/{userId}")
+    public List<UserReceiveAddressEntity> addressList(@PathVariable("userId") Long userId){
+        List<UserReceiveAddressEntity> addressEntityList = userReceiveAddressService.addressList(userId);
+        return addressEntityList;
     }
 
 }

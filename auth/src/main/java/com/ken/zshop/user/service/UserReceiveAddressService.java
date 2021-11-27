@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ken.zshop.common.utils.PageUtils;
 import com.ken.zshop.user.entity.UserReceiveAddressEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface UserReceiveAddressService extends IService<UserReceiveAddressEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<UserReceiveAddressEntity> addressList(Long userId);
 }
 

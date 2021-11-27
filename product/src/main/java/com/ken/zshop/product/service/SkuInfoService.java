@@ -21,5 +21,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
     void saveSkuInfo(SkuInfoEntity skuInfoEntity);
 
     public SkuItemVo skuItem(Long skuId);
+
+    public SkuItemVo skuItemSync(Long skuId);
 }
 
